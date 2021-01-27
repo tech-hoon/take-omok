@@ -9,10 +9,19 @@ const Board = () => {
     Array.from(Array(LINE_NUMBER), () => Array(LINE_NUMBER).fill(0))
   );
 
-  // stone 개행
-  (function () {
-    // console.log(document.querySelectorAll(".stones:nth-child(15n)"));
-  })();
+  const stoneMover = ({ target: { id } }) => {
+    const stone = document.getElementById(id);
+    turn === 1
+      ? stone.classList.add("blackHover")
+      : stone.classList.add("whiteHover");
+  };
+
+  const stoneMout = ({ target: { id } }) => {
+    const stone = document.getElementById(id);
+    turn === 1
+      ? stone.classList.remove("blackHover")
+      : stone.classList.remove("whiteHover");
+  };
 
   const passValue = ({ target: { id } }) => {
     // id => M,N
@@ -53,9 +62,11 @@ const Board = () => {
             return (
               <button
                 onClick={passValue}
+                onMouseOver={stoneMover}
+                onMouseOut={stoneMout}
                 className='stones'
                 id={`${i}-${j}`}
-              ></button>
+              />
             );
           });
         })}

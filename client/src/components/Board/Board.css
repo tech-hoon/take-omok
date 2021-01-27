@@ -12,9 +12,20 @@
   background-color: transparent;
   border: none;
   outline: none;
-  /* border-radius: 50%; */
   height: 40px;
   width: 40px;
+  margin: 0;
+  padding: 0;
+}
+
+.whiteHover {
+  background-color: #ededed;
+  border-radius: 50%;
+}
+
+.blackHover {
+  background-color: gray;
+  border-radius: 50%;
 }
 
 .stones::before {
@@ -37,7 +48,10 @@
   background-color: black;
 }
 
-/* .stones {
+/* .border__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
 } */
 
 body {
