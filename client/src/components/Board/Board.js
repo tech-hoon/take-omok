@@ -2,6 +2,8 @@ import "./Board.css";
 import { useState, useEffect } from "react";
 const LINE_NUMBER = 15;
 
+// Todo : 바둑알 위에 선 없애기
+
 const Board = () => {
   //1 : black,  2 : white
   const [turn, setTurn] = useState(1);
@@ -9,14 +11,14 @@ const Board = () => {
     Array.from(Array(LINE_NUMBER), () => Array(LINE_NUMBER).fill(0))
   );
 
-  const stoneMover = ({ target: { id } }) => {
+  const stoneEnter = ({ target: { id } }) => {
     const stone = document.getElementById(id);
     turn === 1
       ? stone.classList.add("blackHover")
       : stone.classList.add("whiteHover");
   };
 
-  const stoneMout = ({ target: { id } }) => {
+  const stoneLeave = ({ target: { id } }) => {
     const stone = document.getElementById(id);
     turn === 1
       ? stone.classList.remove("blackHover")
@@ -35,12 +37,25 @@ const Board = () => {
     }
   };
 
+  //Todo : 승리 판정
+  const isWin = ([M, N]) => {
+    let i = M,
+      j = N,
+      count = 1;
+
+    return false;
+  };
+
   const isValid = ([M, N]) => {
     if (array[M][N] !== 0) {
       alert("이미 존재하는 돌입니다.");
       return false;
+    } else if (isWin([M, N])) {
+      turn === 1
+        ? alert(`{흑돌}이 승리하였습니다.`)
+        : alert("백돌이 승리하였습니다.");
+      return false;
     }
-    //Todo : 승리 판정
     return true;
   };
 
@@ -62,11 +77,11 @@ const Board = () => {
             return (
               <button
                 onClick={passValue}
-                onMouseOver={stoneMover}
-                onMouseOut={stoneMout}
+                onMouseEnter={stoneEnter}
+                onMouseLeave={stoneLeave}
                 className='stones'
                 id={`${i}-${j}`}
-              />
+              ></button>
             );
           });
         })}
