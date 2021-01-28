@@ -31,19 +31,48 @@ const Board = () => {
     if (isValid([M, N]) === true) {
       array[M][N] = turn;
       putStone(id);
-
       turn === 1 ? setTurn(2) : setTurn(1);
+      console.log(array);
       //Todo : socket으로 값 전달
     }
   };
 
-  //Todo : 승리 판정
+  //Todo : 좌->우 인식 X
+  //Todo : 상,하
+  //Todo : 대각선 좌우
   const isWin = ([M, N]) => {
-    let i = M,
-      j = N,
-      count = 1;
+    let i = Number(M);
+    let j = Number(N);
+    let count = 1;
 
-    return false;
+    console.log("TURN:" + typeof turn);
+    console.log("TEST:" + array[M][N + 1]);
+    console.log("TEST:" + array[M][N]);
+    console.log("TEST:" + array[M][N - 1]);
+
+    //왼쪽에 붙일때
+    while (count < 5) {
+      if (j == 15) break;
+      else if (array[i][j + 1] == turn) {
+        count += 1;
+        j = j + 1;
+      } else break;
+    }
+
+    i = M;
+    j = N;
+    //오른쪽에 붙일때
+    while (count < 5) {
+      if (j == -1) break;
+      else if (array[i][j - 1] == turn) {
+        count += 1;
+        j = j - 1;
+      } else break;
+    }
+
+    turn == 1 ? console.log(`흑 ${count}`) : console.log(`백 ${count}`);
+
+    return count == 5 ? true : false;
   };
 
   const isValid = ([M, N]) => {
@@ -52,7 +81,7 @@ const Board = () => {
       return false;
     } else if (isWin([M, N])) {
       turn === 1
-        ? alert(`{흑돌}이 승리하였습니다.`)
+        ? alert("흑돌이 승리하였습니다.")
         : alert("백돌이 승리하였습니다.");
       return false;
     }
@@ -66,7 +95,8 @@ const Board = () => {
   };
 
   useEffect(() => {
-    console.log(`${turn === 1 ? "흑" : "백"}차례입니다.`);
+    // console.log(`${turn === 1 ? "흑" : "백"}차례입니다.`);
+    // console.log(array);
   });
 
   return (
