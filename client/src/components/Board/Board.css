@@ -1,0 +1,60 @@
+.board {
+  margin: 77px auto;
+  width: 600px;
+  height: 600px;
+  background-color: #ffa40b;
+  border-style: solid;
+  border-radius: 28px;
+  border-width: 7px;
+}
+
+.stones {
+  position: relative;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  height: 40px;
+  width: 40px;
+  margin: 0;
+  padding: 0;
+}
+
+.whiteHover {
+  background-color: #ededed;
+  border-radius: 50%;
+}
+
+.blackHover {
+  background-color: gray;
+  border-radius: 50%;
+}
+
+.stones::before {
+  content: "";
+  top: 0px;
+  height: 40px;
+  width: 2px;
+  right: 19px;
+  position: absolute;
+  background-color: black;
+}
+
+.stones::after {
+  content: "";
+  left: 0px;
+  width: 40px;
+  height: 2px;
+  top: 19px;
+  position: absolute;
+  background-color: black;
+}
+
+/* .border__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+} */
+
+body {
+  background-color: gray;
+}
