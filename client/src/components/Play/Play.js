@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import queryString from "query-string";
 import io from "socket.io-client";
-
+import "./Play.css";
+import Messages from "../Messages/Messages";
 import Board from "../Board/Board";
-// import Chat from "../Chat/Chat";
+import Input from "../Input/Input";
 const LINE_NUMBER = 15;
 
 const ENDPOINT = "localhost:5000";
@@ -15,6 +16,9 @@ const Play = ({ location }) => {
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
   const [users, setUsers] = useState("");
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+
   const [turn, setTurn] = useState(1); //1 : black,  2 : white
   let [array, _] = useState(
     Array.from(Array(LINE_NUMBER), () => Array(LINE_NUMBER).fill(0))
@@ -35,7 +39,23 @@ const Play = ({ location }) => {
   }, [ENDPOINT, location.search]);
   // console.log(`${turn === 1 ? "흑" : "백"}차례입니다.`);
 
-  useEffect(() => {});
+  useEffect(() => {
+    socket.on("message", (message) => {
+      setMessages((messages) => [...messages, message]);
+    });
+
+    socket.on("roomData", ({ users }) => {
+      setUsers(users);
+    });
+  }, []);
+
+  const sendMessage = (event) => {
+    event.preventDefault();
+
+    if (message) {
+      socket.emit("sendMessage", message, () => setMessage(""));
+    }
+  };
 
   // 값 관리
   const passValue = ({ target: { id } }) => {
@@ -193,9 +213,16 @@ const Play = ({ location }) => {
   // const isSamSam = ([M, N]) => {};
 
   return (
-    <div>
+    <div className='container'>
       <Board array={array} passValue={passValue} turn={turn} />
-      {/* <Chat /> */}
+      <div className='chatBox'>
+        <Messages messages={messages} name={name} />
+        <Input
+          message={message}
+          setMessage={setMessage}
+          sendMessage={sendMessage}
+        />
+      </div>
     </div>
   );
 };
