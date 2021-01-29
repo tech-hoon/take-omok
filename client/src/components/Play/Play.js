@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+<<<<<<< HEAD
 import queryString from "query-string";
 import io from "socket.io-client";
 
@@ -195,6 +196,15 @@ const Play = ({ location }) => {
   return (
     <div>
       <Board array={array} passValue={passValue} turn={turn} />
+=======
+import Board from "../Board/Board";
+import Chat from "../Chat/Chat";
+
+const Play = () => {
+  return (
+    <div>
+      <Board />
+>>>>>>> b0d09e06784ff9052ffad9cf9461f47820e16efe
       {/* <Chat /> */}
     </div>
   );
