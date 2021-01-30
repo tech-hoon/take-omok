@@ -2,10 +2,10 @@ const http = require("http");
 const express = require("express");
 const socketio = require("socket.io");
 const cors = require("cors");
-
 const { addUser, removeUser, getUser, getUsersInRoom } = require("./Users");
-
 const router = require("./router");
+
+const TURN_DEFAULT = 1;
 
 const app = express();
 const server = http.createServer(app);
@@ -37,6 +37,13 @@ io.on("connect", (socket) => {
 
     socket.emit("color", {
       color: user.id === getUsersInRoom(user.room)[0].id ? 1 : 2,
+    });
+
+    socket.to(user.room).emit("turn", TURN_DEFAULT);
+
+    socket.on("turnChange", (turn) => {
+      console.log("TURN CHANGED to : " + turn);
+      socket.to(user.room).emit("turn", turn);
     });
 
     io.to(user.room).emit("roomData", {

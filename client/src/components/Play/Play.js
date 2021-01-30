@@ -23,7 +23,7 @@ const Play = ({ location }) => {
 
   const [color, setColor] = useState(1); //1 : black,  2 : white
   const [turn, setTurn] = useState(1); //1 : black,  2 : white
-  let [array, _] = useState(
+  let [array, setArray] = useState(
     Array.from(Array(LINE_NUMBER), () => Array(LINE_NUMBER).fill(0))
   );
 
@@ -53,8 +53,14 @@ const Play = ({ location }) => {
     });
 
     //돌 정하기
-    socket.on("color", (color) => {
-      setColor(color.color);
+    socket.on("color", ({ color }) => {
+      setColor(color);
+    });
+
+    //TURN 초기화
+    socket.on("turn", (turn) => {
+      console.log("현재 TURN은" + turn);
+      setTurn(turn);
     });
   }, []);
 
@@ -69,7 +75,10 @@ const Play = ({ location }) => {
   // 값 관리
   const passValue = ({ target: { id } }) => {
     //자기 순서 아닐 때 return
-    if (color !== turn) return;
+    if (color !== turn) {
+      // socket.emit("turnEnd", turn);
+      return;
+    }
 
     const [M, N] = id.split("-");
     if (isValid([M, N]) === true) {
@@ -83,6 +92,7 @@ const Play = ({ location }) => {
           : alert("백돌이 승리하였습니다.");
       }
       turn === 1 ? setTurn(2) : setTurn(1);
+      socket.emit("turnChange", turn === 1 ? 2 : 1);
     }
   };
 
