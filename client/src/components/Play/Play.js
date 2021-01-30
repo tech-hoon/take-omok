@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import queryString from "query-string";
 import io from "socket.io-client";
 import "./Play.css";
+
+import InfoBar from "../InfoBar/InfoBar";
 import Messages from "../Messages/Messages";
 import Board from "../Board/Board";
 import Input from "../Input/Input";
@@ -20,7 +22,7 @@ const Play = ({ location }) => {
   const [messages, setMessages] = useState([]);
 
   const [color, setColor] = useState(1); //1 : black,  2 : white
-  // const [turn, setTurn] = useState(1); //1 : black,  2 : white`
+  const [turn, setTurn] = useState(1); //1 : black,  2 : white
   let [array, _] = useState(
     Array.from(Array(LINE_NUMBER), () => Array(LINE_NUMBER).fill(0))
   );
@@ -46,13 +48,13 @@ const Play = ({ location }) => {
       setMessages((messages) => [...messages, message]);
     });
 
+    socket.on("roomData", ({ users }) => {
+      setUsers(users);
+    });
+
     //돌 정하기
     socket.on("color", (color) => {
       setColor(color.color);
-    });
-
-    socket.on("roomData", ({ users }) => {
-      setUsers(users);
     });
   }, []);
 
@@ -66,7 +68,9 @@ const Play = ({ location }) => {
 
   // 값 관리
   const passValue = ({ target: { id } }) => {
-    // id => M,N
+    //자기 순서 아닐 때 return
+    if (color !== turn) return;
+
     const [M, N] = id.split("-");
     if (isValid([M, N]) === true) {
       array[M][N] = color;
@@ -78,8 +82,7 @@ const Play = ({ location }) => {
           ? alert("흑돌이 승리하였습니다.")
           : alert("백돌이 승리하였습니다.");
       }
-      // turn === 1 ? setTurn(2) : setTurn(1);
-      //Todo : socket으로 값 전달
+      turn === 1 ? setTurn(2) : setTurn(1);
     }
   };
 
@@ -221,7 +224,10 @@ const Play = ({ location }) => {
 
   return (
     <div className='container'>
-      <Board array={array} passValue={passValue} color={color} />
+      <div className='boardBox'>
+        <InfoBar turn={turn} />
+        <Board array={array} passValue={passValue} color={color} />
+      </div>
       <div className='chatBox'>
         <Messages messages={messages} name={name} />
         <Input

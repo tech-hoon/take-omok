@@ -1,7 +1,7 @@
 import "./Board.css";
 // Todo : 바둑알 위에 선 없애기
 
-const Board = ({ array, passValue, color }) => {
+const Board = ({ array, passValue, color, turn }) => {
   const stoneEnter = ({ target: { id } }) => {
     const stone = document.getElementById(id);
     color === 1
@@ -15,6 +15,14 @@ const Board = ({ array, passValue, color }) => {
       ? stone.classList.remove("blackHover")
       : stone.classList.remove("whiteHover");
   };
+
+  // const touchDisable = () =>{
+  //   (turn != color) ?  document.
+  // }
+
+  // const touchAble = () =>{
+
+  // }
 
   return (
     <>

@@ -39,13 +39,10 @@ io.on("connect", (socket) => {
       color: user.id === getUsersInRoom(user.room)[0].id ? 1 : 2,
     });
 
-    // console.log((color = user.id === getUsersInRoom(user.room)[0].id ? 1 : 2));
     io.to(user.room).emit("roomData", {
       room: user.room,
       users: getUsersInRoom(user.room),
     });
-
-    // console.log(getUsersInRoom(user.room));
 
     callback();
   });
