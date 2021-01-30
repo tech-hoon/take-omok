@@ -62,6 +62,11 @@ const Play = ({ location }) => {
       console.log("현재 TURN은" + turn);
       setTurn(turn);
     });
+
+    //Stone 좌표 얻어오기
+    socket.on("stoneID", (id, color) => {
+      putStone(color, id);
+    });
   }, []);
 
   const sendMessage = (event) => {
@@ -75,16 +80,11 @@ const Play = ({ location }) => {
   // 값 관리
   const passValue = ({ target: { id } }) => {
     //자기 순서 아닐 때 return
-    if (color !== turn) {
-      // socket.emit("turnEnd", turn);
-      return;
-    }
+    if (color !== turn) return;
 
     const [M, N] = id.split("-");
     if (isValid([M, N]) === true) {
-      array[M][N] = color;
-      putStone(id);
-      // socket.emit("passValue", id);
+      putStone(color, id);
 
       if (isFive([M, N])) {
         color === 1
@@ -92,7 +92,7 @@ const Play = ({ location }) => {
           : alert("백돌이 승리하였습니다.");
       }
       turn === 1 ? setTurn(2) : setTurn(1);
-      socket.emit("turnChange", turn === 1 ? 2 : 1);
+      socket.emit("turnChange", turn === 1 ? 2 : 1, id, color);
     }
   };
 
@@ -106,7 +106,9 @@ const Play = ({ location }) => {
   };
 
   //돌을 화면 위에 표시
-  const putStone = (id) => {
+  const putStone = (color, id) => {
+    const [M, N] = id.split("-");
+    array[M][N] = color;
     const stone = document.getElementById(id);
     stone.style.borderRadius = "50%";
     stone.style.backgroundColor = color === 1 ? "black" : "white";

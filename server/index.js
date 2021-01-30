@@ -41,9 +41,9 @@ io.on("connect", (socket) => {
 
     socket.to(user.room).emit("turn", TURN_DEFAULT);
 
-    socket.on("turnChange", (turn) => {
-      console.log("TURN CHANGED to : " + turn);
+    socket.on("turnChange", (turn, id, color) => {
       socket.to(user.room).emit("turn", turn);
+      socket.to(user.room).emit("stoneID", id, color);
     });
 
     io.to(user.room).emit("roomData", {
