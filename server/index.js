@@ -35,15 +35,23 @@ io.on("connect", (socket) => {
       .to(user.room)
       .emit("message", { user: "admin", text: `${user.name} has joined!` });
 
+    // 돌 지정
     socket.emit("color", {
       color: user.id === getUsersInRoom(user.room)[0].id ? 1 : 2,
     });
 
+    // 지정한 돌 -> 클라이언트 전달
     socket.to(user.room).emit("turn", TURN_DEFAULT);
 
+    // 차례 넘기기 + 돌 위치 정보
     socket.on("turnChange", (turn, id, color) => {
       socket.to(user.room).emit("turn", turn);
       socket.to(user.room).emit("stoneID", id, color);
+    });
+
+    // 승리 처리
+    socket.on("gameover", (color) => {
+      socket.in(user.room).emit("notice", color);
     });
 
     io.to(user.room).emit("roomData", {
