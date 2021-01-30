@@ -32,6 +32,11 @@ const Play = ({ location }) => {
     const { name, room } = queryString.parse(location.search);
     socket = io(ENDPOINT);
 
+    // Game 종료
+    socket.on("notice", (color) => {
+      alert(`${color === 1 ? "흑돌" : "백돌"}이 승리하였습니다.`);
+    });
+
     setRoom(room);
     setName(name);
 
@@ -59,7 +64,6 @@ const Play = ({ location }) => {
 
     //TURN 초기화
     socket.on("turn", (turn) => {
-      console.log("현재 TURN은" + turn);
       setTurn(turn);
     });
 
@@ -87,9 +91,10 @@ const Play = ({ location }) => {
       putStone(color, id);
 
       if (isFive([M, N])) {
-        color === 1
-          ? alert("흑돌이 승리하였습니다.")
-          : alert("백돌이 승리하였습니다.");
+        socket.emit("gameover", color);
+        // color === 1
+        //   ? alert("흑돌이 승리하였습니다.")
+        //   : alert("백돌이 승리하였습니다.");
       }
       turn === 1 ? setTurn(2) : setTurn(1);
       socket.emit("turnChange", turn === 1 ? 2 : 1, id, color);
@@ -236,10 +241,18 @@ const Play = ({ location }) => {
 
   return (
     <div className='container'>
-      <div className='boardBox'>
+      <div className='containerLeft'>
         <InfoBar turn={turn} />
-        <Board array={array} passValue={passValue} color={color} />
+        <div className='boardBox'>
+          <Board
+            array={array}
+            passValue={passValue}
+            color={color}
+            turn={turn}
+          />
+        </div>
       </div>
+
       <div className='chatBox'>
         <Messages messages={messages} name={name} />
         <Input

@@ -1,4 +1,17 @@
+.infoBox {
+  padding-top: 20px;
+  /* align-items: center; */
+}
+
 .turnStatus {
-  color: white;
+  color: #ffffff;
+  font-size: 20px;
   text-align: center;
+}
+
+.exitButton {
+  color: white;
+  position: absolute;
+  top: 15px;
+  left: 10px;
 }

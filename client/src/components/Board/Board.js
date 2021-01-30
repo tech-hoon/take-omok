@@ -3,17 +3,21 @@ import "./Board.css";
 
 const Board = ({ array, passValue, color, turn }) => {
   const stoneEnter = ({ target: { id } }) => {
-    const stone = document.getElementById(id);
-    color === 1
-      ? stone.classList.add("blackHover")
-      : stone.classList.add("whiteHover");
+    if (turn === color) {
+      const stone = document.getElementById(id);
+      color === 1
+        ? stone.classList.add("blackHover")
+        : stone.classList.add("whiteHover");
+    }
   };
 
   const stoneLeave = ({ target: { id } }) => {
-    const stone = document.getElementById(id);
-    color === 1
-      ? stone.classList.remove("blackHover")
-      : stone.classList.remove("whiteHover");
+    if (turn === color) {
+      const stone = document.getElementById(id);
+      color === 1
+        ? stone.classList.remove("blackHover")
+        : stone.classList.remove("whiteHover");
+    }
   };
 
   // const touchDisable = () =>{
