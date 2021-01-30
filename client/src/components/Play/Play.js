@@ -19,7 +19,8 @@ const Play = ({ location }) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
 
-  const [turn, setTurn] = useState(1); //1 : black,  2 : white
+  const [color, setColor] = useState(1); //1 : black,  2 : white
+  // const [turn, setTurn] = useState(1); //1 : black,  2 : white`
   let [array, _] = useState(
     Array.from(Array(LINE_NUMBER), () => Array(LINE_NUMBER).fill(0))
   );
@@ -28,6 +29,7 @@ const Play = ({ location }) => {
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
     socket = io(ENDPOINT);
+
     setRoom(room);
     setName(name);
 
@@ -37,11 +39,16 @@ const Play = ({ location }) => {
       }
     });
   }, [ENDPOINT, location.search]);
-  // console.log(`${turn === 1 ? "흑" : "백"}차례입니다.`);
+  // console.log(`당신은 ${turn === 1 ? "흑" : "백"}돌입니다.`);
 
   useEffect(() => {
     socket.on("message", (message) => {
       setMessages((messages) => [...messages, message]);
+    });
+
+    //돌 정하기
+    socket.on("color", (color) => {
+      setColor(color.color);
     });
 
     socket.on("roomData", ({ users }) => {
@@ -62,16 +69,16 @@ const Play = ({ location }) => {
     // id => M,N
     const [M, N] = id.split("-");
     if (isValid([M, N]) === true) {
-      array[M][N] = turn;
+      array[M][N] = color;
       putStone(id);
       // socket.emit("passValue", id);
 
       if (isFive([M, N])) {
-        turn === 1
+        color === 1
           ? alert("흑돌이 승리하였습니다.")
           : alert("백돌이 승리하였습니다.");
       }
-      turn === 1 ? setTurn(2) : setTurn(1);
+      // turn === 1 ? setTurn(2) : setTurn(1);
       //Todo : socket으로 값 전달
     }
   };
@@ -89,7 +96,7 @@ const Play = ({ location }) => {
   const putStone = (id) => {
     const stone = document.getElementById(id);
     stone.style.borderRadius = "50%";
-    stone.style.backgroundColor = turn === 1 ? "black" : "white";
+    stone.style.backgroundColor = color === 1 ? "black" : "white";
   };
 
   // 승리 판단
@@ -104,7 +111,7 @@ const Play = ({ location }) => {
     //왼쪽에 붙일때
     while (count < 6) {
       if (j === 14) break;
-      else if (array[i][j + 1] === turn) {
+      else if (array[i][j + 1] === color) {
         count += 1;
         j += 1;
       } else break;
@@ -115,7 +122,7 @@ const Play = ({ location }) => {
     j = N;
     while (count < 6) {
       if (j === 0) break;
-      else if (array[i][j - 1] === turn) {
+      else if (array[i][j - 1] === color) {
         count += 1;
         j -= 1;
       } else break;
@@ -131,7 +138,7 @@ const Play = ({ location }) => {
     j = N;
     while (count < 6) {
       if (i === 0) break;
-      else if (array[i - 1][j] === turn) {
+      else if (array[i - 1][j] === color) {
         count += 1;
         i -= 1;
       } else break;
@@ -142,7 +149,7 @@ const Play = ({ location }) => {
     j = N;
     while (count < 6) {
       if (i === 14) break;
-      else if (array[i + 1][j] === turn) {
+      else if (array[i + 1][j] === color) {
         count += 1;
         i += 1;
       } else break;
@@ -158,7 +165,7 @@ const Play = ({ location }) => {
     j = N;
     while (count < 6) {
       if (i === 14 || j === 0) break;
-      else if (array[i + 1][j - 1] === turn) {
+      else if (array[i + 1][j - 1] === color) {
         count += 1;
         i += 1;
         j -= 1;
@@ -170,7 +177,7 @@ const Play = ({ location }) => {
     j = N;
     while (count < 6) {
       if (i === 0 || j === 14) break;
-      else if (array[i - 1][j + 1] === turn) {
+      else if (array[i - 1][j + 1] === color) {
         count += 1;
         i -= 1;
         j += 1;
@@ -187,7 +194,7 @@ const Play = ({ location }) => {
     j = N;
     while (count < 6) {
       if (i === 14 || j === 14) break;
-      else if (array[i + 1][j + 1] === turn) {
+      else if (array[i + 1][j + 1] === color) {
         count += 1;
         i += 1;
         j += 1;
@@ -199,7 +206,7 @@ const Play = ({ location }) => {
     j = N;
     while (count < 6) {
       if (i === 0 || j === 0) break;
-      else if (array[i - 1][j - 1] === turn) {
+      else if (array[i - 1][j - 1] === color) {
         count += 1;
         i -= 1;
         j -= 1;
@@ -214,7 +221,7 @@ const Play = ({ location }) => {
 
   return (
     <div className='container'>
-      <Board array={array} passValue={passValue} turn={turn} />
+      <Board array={array} passValue={passValue} color={color} />
       <div className='chatBox'>
         <Messages messages={messages} name={name} />
         <Input

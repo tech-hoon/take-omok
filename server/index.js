@@ -5,7 +5,7 @@ const cors = require("cors");
 
 const { addUser, removeUser, getUser, getUsersInRoom } = require("./Users");
 
-const router = require("./Router");
+const router = require("./router");
 
 const app = express();
 const server = http.createServer(app);
@@ -22,7 +22,7 @@ app.use(router);
 io.on("connect", (socket) => {
   socket.on("join", ({ name, room }, callback) => {
     const { error, user } = addUser({ id: socket.id, name, room });
-    console.log(name, room);
+
     if (error) return callback(error);
 
     socket.join(user.room);
@@ -35,10 +35,17 @@ io.on("connect", (socket) => {
       .to(user.room)
       .emit("message", { user: "admin", text: `${user.name} has joined!` });
 
+    socket.emit("color", {
+      color: user.id === getUsersInRoom(user.room)[0].id ? 1 : 2,
+    });
+
+    // console.log((color = user.id === getUsersInRoom(user.room)[0].id ? 1 : 2));
     io.to(user.room).emit("roomData", {
       room: user.room,
       users: getUsersInRoom(user.room),
     });
+
+    // console.log(getUsersInRoom(user.room));
 
     callback();
   });
@@ -53,6 +60,7 @@ io.on("connect", (socket) => {
 
   socket.on("disconnect", () => {
     const user = removeUser(socket.id);
+
     if (user) {
       io.to(user.room).emit("message", {
         user: "Admin",
@@ -67,5 +75,5 @@ io.on("connect", (socket) => {
 });
 
 server.listen(process.env.PORT || 5000, () =>
-  console.log(`✅Server has started.`)
+  console.log(`Server has started.`)
 );
