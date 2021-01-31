@@ -3,6 +3,11 @@ import "./Board.css";
 
 const Board = ({ array, passValue, color, turn }) => {
   const stoneEnter = ({ target: { id } }) => {
+    // 게임 종료시
+    if (turn === 0) {
+      return;
+    }
+
     if (turn === color) {
       const stone = document.getElementById(id);
       color === 1
@@ -12,6 +17,11 @@ const Board = ({ array, passValue, color, turn }) => {
   };
 
   const stoneLeave = ({ target: { id } }) => {
+    //게임 종료시
+    if (turn === 0) {
+      return;
+    }
+
     if (turn === color) {
       const stone = document.getElementById(id);
       color === 1
@@ -19,14 +29,6 @@ const Board = ({ array, passValue, color, turn }) => {
         : stone.classList.remove("whiteHover");
     }
   };
-
-  // const touchDisable = () =>{
-  //   (turn != color) ?  document.
-  // }
-
-  // const touchAble = () =>{
-
-  // }
 
   return (
     <>

@@ -31,6 +31,7 @@ io.on("connect", (socket) => {
       user: "admin",
       text: `${user.name}, welcome to room ${user.room}.`,
     });
+
     socket.broadcast
       .to(user.room)
       .emit("message", { user: "admin", text: `${user.name} has joined!` });
@@ -43,15 +44,22 @@ io.on("connect", (socket) => {
     // 지정한 돌 -> 클라이언트 전달
     socket.to(user.room).emit("turn", TURN_DEFAULT);
 
-    // 차례 넘기기 + 돌 위치 정보
-    socket.on("turnChange", (turn, id, color) => {
+    // 차례 넘기기
+    socket.on("turnChange", (turn) => {
       socket.to(user.room).emit("turn", turn);
+    });
+
+    //돌 위치 정보 건내기
+    socket.on("passStone", (id, color) => {
       socket.to(user.room).emit("stoneID", id, color);
     });
 
     // 승리 처리
     socket.on("gameover", (color) => {
-      socket.in(user.room).emit("notice", color);
+      io.to(room).emit(
+        "broadcast",
+        `${color === 1 ? "흑돌" : "백돌"}이 승리하였습니다.`
+      );
     });
 
     io.to(user.room).emit("roomData", {

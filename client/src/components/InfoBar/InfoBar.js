@@ -3,7 +3,13 @@ import "./InfoBar.css";
 
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
 
-const InfoBar = (turn) => {
+const TurnStatus = (turn) => {
+  if (turn === 1) return "흑돌 차례입니다.";
+  else if (turn === 2) return "백돌 차례입니다.";
+  else return "게임이 종료되었습니다.";
+};
+
+const InfoBar = ({ turn }) => {
   return (
     <div className='infoBox'>
       <ExitToAppRoundedIcon
@@ -15,9 +21,7 @@ const InfoBar = (turn) => {
           }
         }}
       />
-      <div className='turnStatus'>
-        {turn.turn === 1 ? "흑돌 차례입니다." : "백돌 차례입니다."}
-      </div>
+      <div className='turnStatus'>{TurnStatus(turn)}</div>
     </div>
   );
 };

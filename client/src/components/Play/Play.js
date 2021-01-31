@@ -14,7 +14,7 @@ const ENDPOINT = "localhost:5000";
 let socket;
 //Todo: socket
 
-const Play = ({ location }) => {
+const Play = ({ location, history }) => {
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
   const [users, setUsers] = useState("");
@@ -32,18 +32,20 @@ const Play = ({ location }) => {
     const { name, room } = queryString.parse(location.search);
     socket = io(ENDPOINT);
 
-    // Game 종료
-    socket.on("notice", (color) => {
-      alert(`${color === 1 ? "흑돌" : "백돌"}이 승리하였습니다.`);
-    });
-
     setRoom(room);
     setName(name);
 
     socket.emit("join", { name, room }, (error) => {
       if (error) {
         alert(error);
+        history.push("/");
       }
+
+      // Game 종료
+      socket.on("broadcast", (msg) => {
+        setTurn(0);
+        alert(msg);
+      });
     });
   }, [ENDPOINT, location.search]);
   // console.log(`당신은 ${turn === 1 ? "흑" : "백"}돌입니다.`);
@@ -92,12 +94,14 @@ const Play = ({ location }) => {
 
       if (isFive([M, N])) {
         socket.emit("gameover", color);
-        // color === 1
-        //   ? alert("흑돌이 승리하였습니다.")
-        //   : alert("백돌이 승리하였습니다.");
+        setTurn(0);
+        socket.emit("turnChange", turn);
+        socket.emit("passStone", id, color);
+      } else {
+        turn === 1 ? setTurn(2) : setTurn(1);
+        socket.emit("turnChange", turn === 1 ? 2 : 1);
+        socket.emit("passStone", id, color);
       }
-      turn === 1 ? setTurn(2) : setTurn(1);
-      socket.emit("turnChange", turn === 1 ? 2 : 1, id, color);
     }
   };
 
