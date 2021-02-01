@@ -4,9 +4,10 @@ import "./InfoBar.css";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
 
 const TurnStatus = (turn) => {
-  if (turn === 1) return "흑돌 차례입니다.";
+  if (turn === 0) return "상대를 기다리고 있습니다.";
+  else if (turn === 1) return "흑돌 차례입니다.";
   else if (turn === 2) return "백돌 차례입니다.";
-  else return "게임이 종료되었습니다.";
+  else if (turn === 3) return "게임이 종료되었습니다.";
 };
 
 const InfoBar = ({ turn }) => {

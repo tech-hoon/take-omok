@@ -10,6 +10,7 @@ const addUser = ({ id, name, room }) => {
 
   if (!name || !room) return { error: "닉네임과 방 이름을 입력해주세요." };
   if (existingUser) return { error: "사용중인 닉네임입니다." };
+  if (getUsersInRoom(room).length >= 2) return { error: "방이 꽉 찼습니다." };
 
   const user = { id, name, room };
 

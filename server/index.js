@@ -26,6 +26,16 @@ io.on("connect", (socket) => {
     if (error) return callback(error);
 
     socket.join(user.room);
+    console.log(getUsersInRoom(room));
+    if (getUsersInRoom(room).length === 2) {
+      // 돌 지정
+      socket.emit("color", {
+        color: user.id === getUsersInRoom(user.room)[0].id ? 1 : 2,
+      });
+
+      // 지정한 돌 -> 클라이언트 전달
+      socket.to(user.room).emit("turn", TURN_DEFAULT);
+    }
 
     socket.emit("message", {
       user: "admin",
@@ -35,14 +45,6 @@ io.on("connect", (socket) => {
     socket.broadcast
       .to(user.room)
       .emit("message", { user: "admin", text: `${user.name} has joined!` });
-
-    // 돌 지정
-    socket.emit("color", {
-      color: user.id === getUsersInRoom(user.room)[0].id ? 1 : 2,
-    });
-
-    // 지정한 돌 -> 클라이언트 전달
-    socket.to(user.room).emit("turn", TURN_DEFAULT);
 
     // 차례 넘기기
     socket.on("turnChange", (turn) => {

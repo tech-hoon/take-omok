@@ -22,7 +22,7 @@ const Play = ({ location, history }) => {
   const [messages, setMessages] = useState([]);
 
   const [color, setColor] = useState(1); //1 : black,  2 : white
-  const [turn, setTurn] = useState(1); //1 : black,  2 : white
+  const [turn, setTurn] = useState(0); //0: Wait 1: black 2: white 3: end
   let [array, setArray] = useState(
     Array.from(Array(LINE_NUMBER), () => Array(LINE_NUMBER).fill(0))
   );
@@ -31,7 +31,6 @@ const Play = ({ location, history }) => {
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
     socket = io(ENDPOINT);
-
     setRoom(room);
     setName(name);
 
@@ -43,12 +42,11 @@ const Play = ({ location, history }) => {
 
       // Game 종료
       socket.on("broadcast", (msg) => {
-        setTurn(0);
+        socket.emit("turnChange", 3);
         alert(msg);
       });
     });
   }, [ENDPOINT, location.search]);
-  // console.log(`당신은 ${turn === 1 ? "흑" : "백"}돌입니다.`);
 
   useEffect(() => {
     socket.on("message", (message) => {
@@ -93,7 +91,6 @@ const Play = ({ location, history }) => {
       if (isFive([M, N]) === true) {
         putStone(color, id);
         socket.emit("gameover", color);
-        setTurn(0);
         socket.emit("turnChange", turn);
         socket.emit("passStone", id, color);
       } else if (isFive([M, N]) === 33) {
@@ -156,8 +153,6 @@ const Play = ({ location, history }) => {
       } else break;
     }
 
-    console.log("--" + count);
-
     if (count === 5) {
       return true;
     } else if (count === 3) {
@@ -190,8 +185,6 @@ const Play = ({ location, history }) => {
         i += 1;
       } else break;
     }
-    console.log("|" + count);
-
     if (count === 5) {
       return true;
     } else if (count === 3) {
@@ -226,8 +219,6 @@ const Play = ({ location, history }) => {
         j += 1;
       } else break;
     }
-
-    console.log("／" + count);
 
     if (count === 5) {
       return true;
@@ -264,8 +255,6 @@ const Play = ({ location, history }) => {
       } else break;
     }
 
-    console.log("\\" + count);
-
     if (count === 5) {
       return true;
     } else if (count === 3) {
@@ -285,7 +274,7 @@ const Play = ({ location, history }) => {
   return (
     <div className='container'>
       <div className='containerLeft'>
-        <InfoBar turn={turn} />
+        <InfoBar users={users} turn={turn} />
         <div className='boardBox'>
           <Board
             array={array}

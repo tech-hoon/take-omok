@@ -53,6 +53,10 @@ body {
   width: 100%;
 }
 
+.button:hover {
+  background: #4da9e7;
+}
+
 .mt-20 {
   margin-top: 20px;
 }
