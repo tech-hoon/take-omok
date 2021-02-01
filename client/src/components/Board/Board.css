@@ -5,8 +5,8 @@
 
 .board {
   margin: 18px 0 0;
-  width: 600px;
-  height: 600px;
+  width: 614px;
+  height: 614px;
   background-color: #ffa40b;
   border-style: solid;
   border-radius: 28px;
@@ -53,9 +53,3 @@
   position: absolute;
   background-color: black;
 }
-
-/* .border__grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-} */

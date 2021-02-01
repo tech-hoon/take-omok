@@ -136,7 +136,7 @@ const Play = ({ location, history }) => {
     let i = M;
     let j = N;
 
-    //←왼쪽에 붙일때
+    // →
     while (count < 6) {
       if (j === 14) break;
       else if (array[i][j + 1] === color) {
@@ -145,7 +145,7 @@ const Play = ({ location, history }) => {
       } else break;
     }
 
-    //→오른쪽에 붙일때
+    // ←
     i = M;
     j = N;
     while (count < 6) {
@@ -155,6 +155,8 @@ const Play = ({ location, history }) => {
         j -= 1;
       } else break;
     }
+
+    console.log("--" + count);
 
     if (count === 5) {
       return true;
@@ -166,7 +168,7 @@ const Play = ({ location, history }) => {
       return 33;
     }
 
-    //↓아래쪽에 붙일때
+    // ↓
     count = 1;
     i = M;
     j = N;
@@ -178,7 +180,7 @@ const Play = ({ location, history }) => {
       } else break;
     }
 
-    //↑위쪽에 붙일때
+    // ↑
     i = M;
     j = N;
     while (count < 6) {
@@ -188,6 +190,7 @@ const Play = ({ location, history }) => {
         i += 1;
       } else break;
     }
+    console.log("|" + count);
 
     if (count === 5) {
       return true;
@@ -199,30 +202,32 @@ const Play = ({ location, history }) => {
       return 33;
     }
 
-    // ↙ 위에 붙일때
+    // ↙
     count = 1;
     i = M;
     j = N;
     while (count < 6) {
       if (i === 14 || j === 0) break;
       else if (array[i + 1][j - 1] === color) {
-        count += 1;
+        count = count + 1;
         i += 1;
         j -= 1;
       } else break;
     }
 
-    // ↗ 아래에 붙일때
+    // ↗
     i = M;
     j = N;
     while (count < 6) {
       if (i === 0 || j === 14) break;
       else if (array[i - 1][j + 1] === color) {
-        count += 1;
+        count = count + 1;
         i -= 1;
         j += 1;
       } else break;
     }
+
+    console.log("／" + count);
 
     if (count === 5) {
       return true;
@@ -230,13 +235,11 @@ const Play = ({ location, history }) => {
       SScount += 1;
     }
 
-    console.log("야마이빠이" + SScount);
-
     if (SScount >= 2) {
       return 33;
     }
 
-    // ↘ 위에 붙일 때
+    // ↘
     count = 1;
     i = M;
     j = N;
@@ -261,6 +264,8 @@ const Play = ({ location, history }) => {
       } else break;
     }
 
+    console.log("\\" + count);
+
     if (count === 5) {
       return true;
     } else if (count === 3) {
@@ -270,8 +275,6 @@ const Play = ({ location, history }) => {
     if (SScount >= 2) {
       return 33;
     }
-
-    console.log("SScount: " + SScount);
 
     return count === 5 ? true : false;
   };
