@@ -90,14 +90,17 @@ const Play = ({ location, history }) => {
 
     const [M, N] = id.split("-");
     if (isValid([M, N]) === true) {
-      putStone(color, id);
-
-      if (isFive([M, N])) {
+      if (isFive([M, N]) === true) {
+        putStone(color, id);
         socket.emit("gameover", color);
         setTurn(0);
         socket.emit("turnChange", turn);
         socket.emit("passStone", id, color);
+      } else if (isFive([M, N]) === 33) {
+        alert("쌍삼입니다.");
+        return;
       } else {
+        putStone(color, id);
         turn === 1 ? setTurn(2) : setTurn(1);
         socket.emit("turnChange", turn === 1 ? 2 : 1);
         socket.emit("passStone", id, color);
@@ -129,10 +132,11 @@ const Play = ({ location, history }) => {
     N = Number(N);
 
     let count = 1;
+    let SScount = 0;
     let i = M;
     let j = N;
 
-    //왼쪽에 붙일때
+    //←왼쪽에 붙일때
     while (count < 6) {
       if (j === 14) break;
       else if (array[i][j + 1] === color) {
@@ -141,7 +145,7 @@ const Play = ({ location, history }) => {
       } else break;
     }
 
-    //오른쪽에 붙일때
+    //→오른쪽에 붙일때
     i = M;
     j = N;
     while (count < 6) {
@@ -154,9 +158,15 @@ const Play = ({ location, history }) => {
 
     if (count === 5) {
       return true;
+    } else if (count === 3) {
+      SScount += 1;
     }
 
-    //아래쪽에 붙일때
+    if (SScount >= 2) {
+      return 33;
+    }
+
+    //↓아래쪽에 붙일때
     count = 1;
     i = M;
     j = N;
@@ -168,7 +178,7 @@ const Play = ({ location, history }) => {
       } else break;
     }
 
-    //아래쪽에 붙일때
+    //↑위쪽에 붙일때
     i = M;
     j = N;
     while (count < 6) {
@@ -181,6 +191,12 @@ const Play = ({ location, history }) => {
 
     if (count === 5) {
       return true;
+    } else if (count === 3) {
+      SScount += 1;
+    }
+
+    if (SScount >= 2) {
+      return 33;
     }
 
     // ↙ 위에 붙일때
@@ -210,6 +226,14 @@ const Play = ({ location, history }) => {
 
     if (count === 5) {
       return true;
+    } else if (count === 3) {
+      SScount += 1;
+    }
+
+    console.log("야마이빠이" + SScount);
+
+    if (SScount >= 2) {
+      return 33;
     }
 
     // ↘ 위에 붙일 때
@@ -236,6 +260,18 @@ const Play = ({ location, history }) => {
         j -= 1;
       } else break;
     }
+
+    if (count === 5) {
+      return true;
+    } else if (count === 3) {
+      SScount += 1;
+    }
+
+    if (SScount >= 2) {
+      return 33;
+    }
+
+    console.log("SScount: " + SScount);
 
     return count === 5 ? true : false;
   };
