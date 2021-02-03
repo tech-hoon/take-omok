@@ -12,9 +12,9 @@ body {
   .chatBox {
     display: none;
   }
-
-  .boardBox {
+  /* 
+  .boardBox > * {
     width: 300px;
     height: 300px;
-  }
+  } */
 }

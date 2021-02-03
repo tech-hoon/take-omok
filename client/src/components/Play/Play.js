@@ -9,7 +9,7 @@ import Board from "../Board/Board";
 import Input from "../Input/Input";
 const LINE_NUMBER = 15;
 
-const ENDPOINT = "localhost:5000";
+const ENDPOINT = "take-omok.herokuapp.com";
 
 let socket;
 //Todo: socket

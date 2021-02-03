@@ -10,7 +10,12 @@ const Home = () => {
   return (
     <div className='homeOuterContainer'>
       <div className='homeInnerContainer'>
-        <h1 className='heading'>TakeOmok</h1>
+        <div className='titleBox'>
+          <div className='logoBox'>
+            <img className='logo' src='./baduk.jpg' />
+          </div>
+          <h1 className='heading'>Take-Omok</h1>
+        </div>
         <div>
           <input
             placeholder='Name'

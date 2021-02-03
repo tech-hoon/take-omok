@@ -3,7 +3,7 @@ const express = require("express");
 const socketio = require("socket.io");
 const cors = require("cors");
 const { addUser, removeUser, getUser, getUsersInRoom } = require("./Users");
-const router = require("./router");
+const router = require("./Router");
 
 const TURN_DEFAULT = 1;
 
@@ -11,7 +11,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://take-omok.netlify.app",
     methods: ["GET", "POST"],
     credentials: true,
   },
