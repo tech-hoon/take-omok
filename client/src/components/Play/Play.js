@@ -9,7 +9,8 @@ import Board from "../Board/Board";
 import Input from "../Input/Input";
 const LINE_NUMBER = 15;
 
-const ENDPOINT = "take-omok.herokuapp.com";
+// const ENDPOINT = "take-omok.herokuapp.com";
+const DEV_ENDPOINT = "localhost:5000";
 
 let socket;
 //Todo: socket
@@ -30,7 +31,7 @@ const Play = ({ location, history }) => {
   //Render될 떄마다 표시
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
-    socket = io(ENDPOINT);
+    socket = io(DEV_ENDPOINT);
     setRoom(room);
     setName(name);
 
@@ -46,7 +47,7 @@ const Play = ({ location, history }) => {
         alert(msg);
       });
     });
-  }, [ENDPOINT, location.search]);
+  }, [DEV_ENDPOINT, location.search]);
 
   useEffect(() => {
     socket.on("message", (message) => {
