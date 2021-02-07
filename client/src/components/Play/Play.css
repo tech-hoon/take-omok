@@ -12,6 +12,14 @@ body {
   .chatBox {
     display: none;
   }
+
+  .containerLeft{
+    display : flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+  }
+
   /* 
   .boardBox > * {
     width: 300px;

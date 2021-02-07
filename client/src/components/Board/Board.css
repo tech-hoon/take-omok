@@ -56,19 +56,19 @@
 
 @media (min-width: 320px) and (max-width: 480px) {
   .board {
-    height: 300px;
-    width: 300px;
+    height: 320px;
+    width: 320px;
   }
 
   .stones {
-    height: 19px;
-    width: 19px;
+    height: 18px;
+    width: 18px;
   }
 
   .stones::before {
     content: "";
     top: -5px;
-    height: 15px;
+    height: 19px;
     width: 1px;
     right: 5px;
     position: absolute;
@@ -76,8 +76,8 @@
   }
   .stones::after {
     content: "";
-    left: 3px;
-    width: 15px;
+    left: 5px;
+    width: 19px;
     height: 1px;
     top: 5px;
     position: absolute;
