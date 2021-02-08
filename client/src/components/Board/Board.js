@@ -1,4 +1,5 @@
 import "./Board.css";
+import RefreshIcon from '@material-ui/icons/Refresh';
 // Todo : 바둑알 위에 선 없애기
 
 const Board = ({ array, passValue, color, turn }) => {
@@ -46,6 +47,7 @@ const Board = ({ array, passValue, color, turn }) => {
             );
           });
         })}
+        {/* <RefreshIcon fontSize="large" className="refreshButton"/> */}
       </div>
     </>
   );

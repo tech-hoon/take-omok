@@ -54,6 +54,11 @@
   background-color: black;
 }
 
+.refreshButton{
+  height:48px;
+  color:#178dfc;
+}
+
 @media (min-width: 320px) and (max-width: 480px) {
   .board {
     display:grid;
