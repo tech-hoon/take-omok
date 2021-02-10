@@ -54,15 +54,18 @@
   background-color: black;
 }
 
-.refreshButton{
-  height:48px;
-  color:#178dfc;
+.refreshButton {
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #178dfc;
 }
 
 @media (min-width: 320px) and (max-width: 480px) {
   .board {
-    display:grid;
-    grid-template-columns: repeat(15,1fr);
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
     height: 300px;
     width: 300px;
   }
@@ -70,8 +73,8 @@
   .stones {
     height: 18px;
     width: 18px;
-    margin:0px;
-    padding:0px;
+    margin: 0px;
+    padding: 0px;
   }
 
   .stones::before {

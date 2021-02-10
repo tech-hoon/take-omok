@@ -9,7 +9,7 @@ import Board from "../Board/Board";
 import Input from "../Input/Input";
 const LINE_NUMBER = 15;
 
-// const ENDPOINT = "take-omok.herokuapp.com";
+const ENDPOINT = "take-omok.herokuapp.com";
 const DEV_ENDPOINT = "localhost:5000";
 
 let socket;
@@ -31,7 +31,7 @@ const Play = ({ location, history }) => {
   //Render될 떄마다 표시
   useEffect(() => {
     const { name, room } = queryString.parse(location.search);
-    socket = io(DEV_ENDPOINT);
+    socket = io(ENDPOINT);
     setRoom(room);
     setName(name);
 
@@ -47,7 +47,7 @@ const Play = ({ location, history }) => {
         alert(msg);
       });
     });
-  }, [DEV_ENDPOINT, location.search]);
+  }, [ENDPOINT, location.search]);
 
   useEffect(() => {
     socket.on("message", (message) => {
@@ -269,14 +269,11 @@ const Play = ({ location, history }) => {
     return count === 5 ? true : false;
   };
 
-  //Todo : 쌍삼
-  // const isSamSam = ([M, N]) => {};
-
   return (
-    <div className='container'>
-      <div className='containerLeft'>
+    <div className="container">
+      <div className="containerLeft">
         <InfoBar users={users} turn={turn} />
-        <div className='boardBox'>
+        <div className="boardBox">
           <Board
             array={array}
             passValue={passValue}
@@ -286,7 +283,7 @@ const Play = ({ location, history }) => {
         </div>
       </div>
 
-      <div className='chatBox'>
+      <div className="chatBox">
         <Messages messages={messages} name={name} />
         <Input
           message={message}

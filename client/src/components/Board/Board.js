@@ -1,5 +1,5 @@
 import "./Board.css";
-import RefreshIcon from '@material-ui/icons/Refresh';
+import RefreshIcon from "@material-ui/icons/Refresh";
 // Todo : 바둑알 위에 선 없애기
 
 const Board = ({ array, passValue, color, turn }) => {
@@ -33,7 +33,7 @@ const Board = ({ array, passValue, color, turn }) => {
 
   return (
     <>
-      <div className='board'>
+      <div className="board">
         {array.map((_, i) => {
           return array.map((_, j) => {
             return (
@@ -41,14 +41,20 @@ const Board = ({ array, passValue, color, turn }) => {
                 onClick={passValue}
                 onMouseEnter={stoneEnter}
                 onMouseLeave={stoneLeave}
-                className='stones'
+                className="stones"
                 id={`${i}-${j}`}
               ></button>
             );
           });
         })}
-        {/* <RefreshIcon fontSize="large" className="refreshButton"/> */}
       </div>
+      {/* <RefreshIcon
+        fontSize="large"
+        className="refreshButton"
+        onClick={() => {
+          window.location.reload();
+        }}
+      /> */}
     </>
   );
 };

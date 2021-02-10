@@ -11,8 +11,8 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server, {
   cors: {
-    // origin: "https://take-omok.netlify.app",
-    origin : "http://localhost:3000",
+    origin: "https://take-omok.netlify.app",
+    // origin : "http://localhost:3000",
     methods: ["GET", "POST"],
     credentials: true,
   },

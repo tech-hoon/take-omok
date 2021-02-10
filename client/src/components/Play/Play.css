@@ -1,5 +1,6 @@
 body {
   background-color: black;
+  /* margin: 0 auto; */
 }
 
 .container {
@@ -9,15 +10,24 @@ body {
 }
 
 @media (min-width: 320px) and (max-width: 480px) {
+  .container {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
   .chatBox {
     display: none;
   }
 
-  .containerLeft{
-    display : flex;
+  .containerLeft {
+    display: flex;
     align-items: center;
     justify-content: space-around;
     flex-direction: column;
+  }
+  .boardBox {
+    margin-top: 24px;
   }
 
   /* 
