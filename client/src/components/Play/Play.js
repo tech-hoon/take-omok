@@ -10,7 +10,7 @@ import Input from "../Input/Input";
 const LINE_NUMBER = 15;
 
 const ENDPOINT = "take-omok.herokuapp.com";
-const DEV_ENDPOINT = "localhost:5000";
+// const DEV_ENDPOINT = "localhost:5000";
 
 let socket;
 //Todo: socket
