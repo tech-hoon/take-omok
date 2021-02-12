@@ -13,7 +13,6 @@ const ENDPOINT = "take-omok.herokuapp.com";
 // const DEV_ENDPOINT = "localhost:5000";
 
 let socket;
-//Todo: socket
 
 const Play = ({ location, history }) => {
   const [name, setName] = useState("");
