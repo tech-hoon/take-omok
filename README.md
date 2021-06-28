@@ -4,9 +4,10 @@ React기반의 실시간 오목 웹앱
 ## Stack
 
 - React.js
-- Socket io
-- Realtime Chat
-- Realtime Omok
+- Socket.io
+- Styled Component
+- Heruoku
+- Netlify
 
 ## Play
 
