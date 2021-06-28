@@ -1,4 +1,5 @@
-# TakeOmok - React Omok App
+# TakeOmok - Realtime Omok App
+React기반의 실시간 오목 웹앱
 
 ## Stack
 
