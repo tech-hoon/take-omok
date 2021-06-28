@@ -4,7 +4,8 @@
 
 - React.js
 - Socket io
-- Realtime Omok & Chat
+- Realtime Chat
+- Realtime Omok
 
 ## Play
 
